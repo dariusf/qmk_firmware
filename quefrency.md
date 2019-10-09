@@ -1,0 +1,1 @@
+https://config.qmk.fm/#/keebio/quefrency/rev1/LAYOUT_65
