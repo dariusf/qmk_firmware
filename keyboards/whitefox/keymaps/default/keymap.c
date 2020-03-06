@@ -52,3 +52,141 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,KC_TRNS,KC_TRNS,               KC_TRNS,          KC_TRNS,KC_TRNS,KC_TRNS,     KC_TRNS,KC_TRNS,KC_TRNS  \
     ),
 };
+
+// https://www.reddit.com/r/olkb/comments/9eohzf/qmk_using_ctrl_as_fnkey_only_for_a_few_keys/e5qpbdz/
+static bool lalt = false;
+static bool ralt = false;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+switch (keycode) {
+    case KC_LALT:
+      if(record->event.pressed) {
+        lalt = true;
+        register_code(KC_LALT);
+      } else {
+        unregister_code(KC_LALT);
+        lalt = false;
+      }
+      return false;
+    case KC_RALT:
+      if(record->event.pressed) {
+        ralt = true;
+        register_code(KC_RALT);
+      } else {
+        unregister_code(KC_RALT);
+        ralt = false;
+      }
+      return false;
+    case KC_I:
+      if (lalt || ralt){
+        if(record->event.pressed) {
+          unregister_code(KC_LALT);
+          unregister_code(KC_RALT);
+          register_code(KC_BSPC);
+        } else {
+          unregister_code(KC_BSPC);
+          if (lalt)
+            register_code(KC_LALT);
+          if (ralt)
+            register_code(KC_RALT);
+        }
+      } else {
+        unregister_code(KC_BSPC);
+        return true;
+      }
+      return false;
+  case KC_U:
+    if (lalt || ralt){
+      if(record->event.pressed) {
+        unregister_code(KC_LALT);
+        unregister_code(KC_RALT);
+        register_code(KC_ENT);
+      } else {
+        unregister_code(KC_ENT);
+        if (lalt)
+          register_code(KC_LALT);
+        if (ralt)
+          register_code(KC_RALT);
+      }
+    } else {
+      unregister_code(KC_ENT);
+      return true;
+    }
+    return false;
+  case KC_H:
+    if (lalt || ralt){
+      if(record->event.pressed) {
+        unregister_code(KC_LALT);
+        unregister_code(KC_RALT);
+        register_code(KC_LEFT);
+      } else {
+        unregister_code(KC_LEFT);
+        if (lalt)
+          register_code(KC_LALT);
+        if (ralt)
+          register_code(KC_RALT);
+      }
+    } else {
+      unregister_code(KC_LEFT);
+      return true;
+    }
+    return false;
+    case KC_J:
+      if (lalt || ralt){
+        if(record->event.pressed) {
+          unregister_code(KC_LALT);
+          unregister_code(KC_RALT);
+          register_code(KC_DOWN);
+        } else {
+          unregister_code(KC_DOWN);
+          if (lalt)
+            register_code(KC_LALT);
+          if (ralt)
+            register_code(KC_RALT);
+        }
+      } else {
+        unregister_code(KC_DOWN);
+        return true;
+      }
+      return false;
+    case KC_K:
+      if (lalt || ralt){
+        if(record->event.pressed) {
+          unregister_code(KC_LALT);
+          unregister_code(KC_RALT);
+          register_code(KC_UP);
+        } else {
+          unregister_code(KC_UP);
+          if (lalt)
+            register_code(KC_LALT);
+          if (ralt)
+            register_code(KC_RALT);
+        }
+      } else {
+        unregister_code(KC_UP);
+        return true;
+      }
+      return false;
+    case KC_L:
+      if (lalt || ralt){
+        if(record->event.pressed) {
+          unregister_code(KC_LALT);
+          unregister_code(KC_RALT);
+          register_code(KC_RGHT);
+        } else {
+          unregister_code(KC_RGHT);
+          if (lalt)
+            register_code(KC_LALT);
+          if (ralt)
+            register_code(KC_RALT);
+        }
+      } else {
+        unregister_code(KC_RGHT);
+        return true;
+      }
+      return false;
+
+    default:
+      return true;
+    }
+}
